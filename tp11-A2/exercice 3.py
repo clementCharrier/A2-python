@@ -35,4 +35,9 @@ if __name__=='__main__':
     r7=r1==r2
     r8=r1<r2
     r9=r1>r2
+    print(str(r3.getN())+'/'+str(r3.getD()))
     print(str(r4.getN())+'/'+str(r4.getD()))
+    print(str(r5.getN())+'/'+str(r5.getD()))
+    print(str(r6.getN())+'/'+str(r6.getD()))
+    print(r7)
+
