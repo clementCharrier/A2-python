@@ -8,7 +8,7 @@ class multinationale():
         self.__filiale.append(f)
 
     def affichage(self):
-        print('La multinationale '+str(self.__nom)+" est compose de "+str(len(self.__filiale))+" filiales. Son pays d'origine est "+str(self.__pays)
+        print('- La multinationale '+str(self.__nom)+" est compose de "+str(len(self.__filiale))+" filiales. Son pays d'origine est "+str(self.__pays)
               +".")
         liste_annee=[]
         nb_emploi=0
@@ -16,9 +16,9 @@ class multinationale():
             liste_annee.append(i.getDate())
             nb_emploi+=len(i.getS())
         j=liste_annee.index(min(liste_annee))
-        print("- La fililale la plus ancienne de cette multinationale est : "+str(self.__filiale[j].getN())+". Elle est composée \n de "
+        print("- La fililale la plus ancienne de cette multinationale est : "+str(self.__filiale[j].getN())+". Elle est composée \nde "
               +str(len(self.__filiale[j].getS()))+" salariés")
-        print(str(self.__nom)+" est composée de "+str(nb_emploi)+" salariés :")
+        print("- "+str(self.__nom)+" est composée de "+str(nb_emploi)+" salariés :")
 
         for i in self.__filiale:
             i.affichage()
