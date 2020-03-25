@@ -59,7 +59,7 @@ class directeur(salarie):
 
     def affichage(self,pays):
         print("[id="+str(self._id)+"] "+str(self._nom)+" "+str(self._prenom)+", salaire : "+str(self._echelon)+", satut : Directuer, Année de nomination : "+
-              str(self.__annee)+" site : "+str(pays))
+              str(self.__annee)+" \nsite : "+str(pays))
 
 class employe(salarie):
     def __init__(self,nomm,prenom,echelon,id,anb,nbt):
@@ -74,7 +74,7 @@ class admin(employe):
 
     def affichage(self,pays):
         print("[id="+str(self._id)+"] "+str(self._nom)+" "+str(self._prenom)+", salaire : "+str(self._echelon)+", satut : Admin, Année d'embauche : "+
-              str(self._anb)+" site : "+str(pays)+" Nombre de jours de travail : "+str(self._nbt)+", service : "+str(self.__service))
+              str(self._anb)+" \nsite : "+str(pays)+" Nombre de jours de travail : "+str(self._nbt)+", service : "+str(self.__service))
 
 
 
@@ -90,8 +90,8 @@ class ingeJ(inge):
         inge.__init__(self,nom,prenom,echelon,id,anb,nbt,nbp,nbg)
         self.__exp=exp
     def affichage(self,pays):
-        print("[id="+str(self._id)+"] "+str(self._nom)+" "+str(self._prenom)+", salaire : "+str(self._echelon)+", satut : Admin, Année d'embauche : "+
-              str(self._anb)+" site : "+str(pays)+" Nombre de jours de travail : "+str(self._nbt)+", Nombre d'heure de projet : "+str(self._nbp)+
+        print("[id="+str(self._id)+"] "+str(self._nom)+" "+str(self._prenom)+", salaire : "+str(self._echelon)+", satut : Ingernieur Junior , Année d'embauche : "+
+              str(self._anb)+" \n site : "+str(pays)+" Nombre de jours de travail : "+str(self._nbt)+", Nombre d'heure de projet : "+str(self._nbp)+
               ", Nombre d'heure de gestion : "+str(self._nbg)+", Nombre d'année d'experience : "+str(self.__exp))
 
 
@@ -101,8 +101,8 @@ class ingeS(inge):
         self.__resp=resp
 
     def affichage(self,pays):
-        print("[id="+str(self._id)+"] "+str(self._nom)+" "+str(self._prenom)+", salaire : "+str(self._echelon)+", satut : Admin, Année d'embauche : "+
-              str(self._anb)+" site : "+str(pays)+" Nombre de jours de travail : "+str(self._nbt)+", Nombre d'heure de projet : "+str(self._nbp)+
+        print("[id="+str(self._id)+"] "+str(self._nom)+" "+str(self._prenom)+", salaire : "+str(self._echelon)+", satut : Ingenieur Sénior , Année d'embauche : "+
+              str(self._anb)+" \nsite : "+str(pays)+" Nombre de jours de travail : "+str(self._nbt)+", Nombre d'heure de projet : "+str(self._nbp)+
               ", Nombre d'heure de gestion : "+str(self._nbg)+", Responsabilité : "+str(self.__resp))
 
 
