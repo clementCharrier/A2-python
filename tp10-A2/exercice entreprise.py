@@ -23,6 +23,14 @@ class multinationale():
         for i in self.__filiale:
             i.affichage()
 
+    def mutation(self,S1,F):
+        for i in self.__filiale:
+            for j in i.getS():
+                if S1==j:
+                    i.getS().remove(S1)
+        F.setS(S1)
+
+
 class filiale():
     def __init__(self,nom,pays,date):
         self.__nom=nom
@@ -130,5 +138,7 @@ f1.setS(S3)
 f2.setS(S4)
 f3.setS(S5)
 f4.setS(S6)
+
+Edf.mutation(S1,f4)
 
 Edf.affichage()
