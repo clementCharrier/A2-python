@@ -1,9 +1,9 @@
 def reverseString(s, i = 0) :
     """Reverses the string s recursively """
     if i == len(s):
-       return ""
-
-    return reverseString(s, i+1)
+       return ''
+    k=s[-(i+1)]
+    return k+reverseString(s, i+1)
 
 
 
