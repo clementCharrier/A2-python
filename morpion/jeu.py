@@ -84,8 +84,9 @@ def condVictory(mat):
             if nul==21 or nul==24:
                 print("Match nul")
                 continuer=0
+                quit()
+                exit()
                 break
-
     return continuer
 
 
@@ -107,22 +108,23 @@ def robot(mat,list_case,list_proba):
                         print(matrice_gen)
 
                         break
-            print(compteur)
 
+    continuer=condVictory(mat)
     while passe==0 :
         X=rd.randint(0,8)
-        print(list_case[X].getStatut(),list_case[X].getPos())
+        # print(list_case[X].getStatut(),list_case[X].getPos())
         if list_case[X].getStatut()==0:
             list_case[X].setStatut(4)
             mat[list_case[X].getPos()[0],list_case[X].getPos()[1]]=4
             pygame.draw.circle(fenetre,(255,255,255),list_case[X].getCoord(),30,5)
             pygame.display.update()
-
             passe=1
             print(matrice_gen)
+        continuer=condVictory(mat)
 
+    # continuer=condVictory(mat)
     tour=False
-    return tour
+    return tour,continuer
 
 
 
@@ -274,7 +276,7 @@ while continuer:
             continuer=0
 
     if tour==True:
-        tour=robot(matrice_gen,liste_case,liste_proba)
+        tour,continuer=robot(matrice_gen,liste_case,liste_proba)
 
     continuer=condVictory(matrice_gen)
 
