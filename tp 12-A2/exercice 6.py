@@ -9,6 +9,7 @@ def drawCurve(turtle,l,n):
 
 
     else :
+        l/=3
         drawCurve(turtle,l,n-1)
         turtle.left(60)
         drawCurve(turtle,l,n-1)
@@ -36,11 +37,11 @@ def drawCurveFull(turtle,l,n):
 
 
 
-
+turtle.speed('fastest')
 turtle.up()
 turtle.goto(-300,0)
 turtle.down()
-drawCurveFull(turtle,30,3)
+drawCurveFull(turtle,300,3)
 
 turtle.exitonclick()
         # turtle.left(60)
