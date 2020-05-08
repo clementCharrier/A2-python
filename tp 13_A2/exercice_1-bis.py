@@ -84,24 +84,18 @@ class BinaryTree():
     def ancestor(self,noeud,valeur):
 
         if noeud is None:
-            return False
+            return ""
         if noeud.getVal()==valeur:
             return True
 
         else :
 
-            list=str(noeud.getVal())
+
             a=self.ancestor(noeud.getLeft(),valeur)
             b=self.ancestor(noeud.getRight(),valeur)
             if a==True or b==True :
-                print("tes")
-                return list
-
-            list=str(noeud.getVal())
-
-            if a==False or b==False:
-                list=""
-            return list+str(self.ancestor(noeud.getLeft(),valeur))+str(self.ancestor(noeud.getRight(),valeur))
+                print(noeud.getVal())
+                return True
 
 
 # racine
