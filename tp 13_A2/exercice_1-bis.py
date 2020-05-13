@@ -87,10 +87,7 @@ class BinaryTree():
             return ""
         if noeud.getVal()==valeur:
             return True
-
         else :
-
-
             a=self.ancestor(noeud.getLeft(),valeur)
             b=self.ancestor(noeud.getRight(),valeur)
             if a==True or b==True :
@@ -98,6 +95,16 @@ class BinaryTree():
                 return True
 
 
+    def decandant(self,noeud,valeur):
+        if noeud is None:
+            return ""
+        if noeud.getVal()==valeur:
+            return True
+        else :
+            a=self.decandant(noeud.getLeft(),valeur)
+            b=self.decandant(noeud.getRight(),valeur)
+            if a==True or b==True :
+                return str(noeud.getVal())
 # racine
 N1=Node(12)
 Tree=BinaryTree(N1)
@@ -130,4 +137,4 @@ print("Nombre de noeud interne ", Tree.numlberInternalNodes(N1))
 print("La taille de l'arbre est " ,Tree.height(N1))
 print("La valeur appartient à l'arbre ",Tree.belongs(N1,19))
 print("teste",Tree.ancestor(N1,19))
-
+print("je ne suis que fougere", Tree.decandant(N1,19))
