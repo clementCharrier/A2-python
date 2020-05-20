@@ -7,7 +7,7 @@ class windows(QWidget):
         QWidget.setWindowTitle(self,"IHM")
         self.layout=QHBoxLayout()
         self.progression=QProgressBar()
-        self.progression.setValue((0))
+        self.progression.setTextVisible(False)
         self.silde=QSlider()
         self.layout.addWidget(self.progression)
         self.layout.addWidget(self.silde)

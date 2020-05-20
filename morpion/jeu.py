@@ -69,7 +69,7 @@ def condVictory(mat):
         condD+=mat[i,i]
         condOD+=mat[i,2-i]
         if condD==3 or condOD==3:
-            print("GAGNE sur la colonne "+str(i))
+            print("GAGNE sur la diagonale "+str(i))
             continuer=0
             break
         elif condD==12 or condOD==12:
@@ -108,6 +108,7 @@ def robot(mat,list_case,list_proba):
                         print(matrice_gen)
 
                         break
+            break
 
     continuer=condVictory(mat)
     while passe==0 :
