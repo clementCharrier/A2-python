@@ -12,18 +12,35 @@ class imh(QWidget):
         self.label=QLabel("je suis une etiquette")
         self.label.setAlignment(Qt.AlignCenter)
         self.progression=QProgressBar()
-        self.progression.setValue((75))
+        self.progression.setValue((1))
         self.lineEdit=QLineEdit()
-        self.button=QPushButton("affiche un texte")
-        self.button.setToolTip("le texte affiché par le boutton")
+        self.button=QPushButton("augment le téléchargement")
+        self.button.setToolTip("Tu passes le curseur sur le boutton")
+        self.button2=QPushButton("réinitialise le téléchargement")
+        self.layout.addWidget(self.button2)
         self.layout.addWidget(self.label)
         self.layout.addWidget(self.progression)
         self.layout.addWidget(self.lineEdit)
         self.layout.addWidget(self.button)
         self.setLayout(self.layout)
 
+
+
+    def MousePressedEvent(self):
+        self.progression.setValue(self.progression.value()+1)
+        if self.progression.value()==100 :
+            self.label.setText("Téléchargement terminé")
+    def MousPressedEvent2(self):
+        self.progression.setValue(0)
+        self.label.setText("le téléchargement à été réinitialisé")
+
+
 if __name__ == "__main__":
    app = QApplication([])
    win = imh()
    win.show()
+   win.button.clicked.connect(win.MousePressedEvent)
+   win.button2.clicked.connect(win.MousPressedEvent2)
    app.exec_()
+
+
