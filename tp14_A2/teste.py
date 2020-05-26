@@ -19,4 +19,6 @@
 # app.exec_()
 
 chaine="clement"
-print(chaine[1])
+l=len(chaine)
+chaine2=chaine[:l-1]
+print(chaine2)
