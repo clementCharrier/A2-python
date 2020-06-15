@@ -11,7 +11,7 @@ def affichage_fichier_stl(lien) :
     fichier=mesh.Mesh.from_file(lien)
     a=(fichier.vectors)
     """ ajustement de la hauteur de x"""
-    hauteur =0 # La hauteur a ajusté
+    hauteur =-2 # La hauteur a ajusté
     for n in range(0,len(a)):
         a[n][0][2]+=hauteur
         a[n][1][2]+=hauteur
@@ -25,8 +25,10 @@ def affichage_fichier_stl(lien) :
 
 
     """Calcule de la surface total et de chaque facette"""
-
+    Rho=1000
+    g=9.81
     STot=0
+    F=0
     for i in range(0,len(a)):
         V=(a[i][1][0]-a[i][0][0],a[i][1][1]-a[i][0][1],a[i][1][2]-a[i][0][2])
         W=(a[i][2][0]-a[i][0][0],a[i][2][1]-a[i][0][1],a[i][2][2]-a[i][0][2])
@@ -36,10 +38,10 @@ def affichage_fichier_stl(lien) :
         print(DsVec)
         Zfk=(a[i][0][2]+a[i][0][2]+a[i][0][2])/3
         if Zfk <0:
-
-        else : F=0
+            F+=Rho*g*Zfk*DsVec
+        else : F+=0
         STot+=Ds
-    # print(STot)
+    print(F)
 
 
 
