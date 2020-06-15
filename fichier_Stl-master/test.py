@@ -5,22 +5,6 @@ from matplotlib import pyplot
 import numpy as np
 def affichage_fichier_stl(lien) :
 
-
-    figure= pyplot.figure()
-    axes=mplot3d.Axes3D(figure)
-    fichier=mesh.Mesh.from_file(lien)
-    a=(fichier.vectors)
-    normale=(fichier.normals)
-    print(normale)
-    print(a)
-    # print(a[1])
-    # print(len(a))
-
-    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors))
-    scale = fichier.points.flatten()
-    axes.auto_scale_xyz(scale, scale, scale)
-    pyplot.show()
-
     def CalculForce(a,normale,hauteur):
         F_Archimede=0
         Rho=1000
@@ -50,8 +34,45 @@ def affichage_fichier_stl(lien) :
                 F_Archimede+=Rho*g*Zfk*DsVec
             else : F_Archimede+=0
 
-        """calcule du poid de la coque"""
-        poid=1 #kg
+        """calcule du poid de la coque selon l'axe Oz"""
+        masse=1000 #g
+        F_Poid=(0,0,masse*g)
+
+        """On determine la norme de la resultante du poid et d'archimède"""
+        normeArchimede=np.linalg.norm(F_Archimede)
+        normePoid=np.linalg.norm(F_Poid)
+
+        difference= normePoid-normeArchimede #Si <0 alors Poid < Archimede sinon >0 alors Poid > Archimede
+
+        return difference
+
+    def Dichotomie(Haut,Bas,Presicion):
+        ecart=Haut-Bas
+        Zmilieu=0
+        while ecart>Presicion:
+            difference=CalculForce(a,normale,Zmilieu)
+            if difference>0 :
+                Haut=Zmilieu
+            else : Bas=Zmilieu
+            ecart=Haut-Bas
+
+        return Zmilieu
+
+    figure= pyplot.figure()
+    axes=mplot3d.Axes3D(figure)
+    fichier=mesh.Mesh.from_file(lien)
+    a=(fichier.vectors)
+    normale=(fichier.normals)
+    print(normale)
+    print(a)
+    # print(a[1])
+    # print(len(a))
+    print(Dichotomie(0,-4,0.01))
+    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors))
+    scale = fichier.points.flatten()
+    axes.auto_scale_xyz(scale, scale, scale)
+
+    pyplot.show()
 
 
 
