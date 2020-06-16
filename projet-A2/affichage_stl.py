@@ -69,7 +69,7 @@ def affichage_fichier_stl(lien) :
     fichier=mesh.Mesh.from_file(lien)
     a=(fichier.vectors)
     normale=(fichier.normals)
-    normale[7][0]=1
+    normale[7][0]=1  #Vecteur normal du fichie dans le mauvais sens des x
 
 
     #print(a[1])
