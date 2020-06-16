@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 def produitVectoriel(u,v):
     w=np.cross(u,v)
     return w
@@ -69,6 +69,12 @@ def CalculForce(a,normale,hauteur,Rho,masse):
 
     return difference
 
+def signif(x, digit):
+    ''' Permet de retourné un digit avec un nombre de chiffre significatif defini par digit
+    Source : http://www.python-simple.com/python-langage/operations.php'''
+    if x == 0:
+        return 0
+    return round(x, digit - int(math.floor(math.log10(abs(x)))) - 1)
 
 def Dichotomie(Haut,Bas,Precision,a,normale,Rho,masse):
     ecart=Bas-Haut
@@ -80,12 +86,11 @@ def Dichotomie(Haut,Bas,Precision,a,normale,Rho,masse):
         difference=CalculForce(a,normale,Zmilieu,Rho,masse)
         print("diff ",difference)
         nb_repetition+=1
-        listeZmilieu.append(listeZmilieu)
+        listeZmilieu.append(Zmilieu)
         if difference<0 :
             Haut=Zmilieu
 
         else : Bas=Zmilieu
         ecart=Haut-Bas
-
 
     return Zmilieu,nb_repetition,listeZmilieu
