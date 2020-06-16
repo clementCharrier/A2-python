@@ -72,11 +72,15 @@ def CalculForce(a,normale,hauteur,Rho,masse):
 
 def Dichotomie(Haut,Bas,Precision,a,normale,Rho,masse):
     ecart=Bas-Haut
+    nb_repetition=0
+    listeZmilieu=[]
     while abs(ecart)>Precision:
         Zmilieu=(Haut+Bas)/2
         print("ecart ",ecart," haut ",Haut," bas ",Bas," Zmilieu ",Zmilieu)
         difference=CalculForce(a,normale,Zmilieu,Rho,masse)
         print("diff ",difference)
+        nb_repetition+=1
+        listeZmilieu.append(listeZmilieu)
         if difference<0 :
             Haut=Zmilieu
 
@@ -84,4 +88,4 @@ def Dichotomie(Haut,Bas,Precision,a,normale,Rho,masse):
         ecart=Haut-Bas
 
 
-    return Zmilieu
+    return Zmilieu,nb_repetition,listeZmilieu

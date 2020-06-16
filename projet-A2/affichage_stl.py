@@ -6,8 +6,9 @@ import numpy as np
 def affichage_fichier_stl(lien) :
 
 
-    figure= pyplot.figure()
-    axes=mplot3d.Axes3D(figure)
+    fig= pyplot.figure()
+    axes=pyplot.axes()
+
     fichier=mesh.Mesh.from_file(lien)
     a=(fichier.vectors)
     normale=(fichier.normals)
@@ -28,14 +29,13 @@ def affichage_fichier_stl(lien) :
     #print(CalculForce(a,normale,Dichotomie(0,-4,0.0000001)))
 
     """Problème pour le fichier Mini_650 te V avec les vecteurs normaux"""
-
-    outil.translation(2,a,outil.Dichotomie(2,-2,0.0000001,a,normale))
-    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors))
-    scale = fichier.points.flatten()
-    axes.auto_scale_xyz(scale, scale, scale)
-
+    hauteur,nb_rep,liste=outil.Dichotomie(2,-2,0.00001,a,normale,Rho=1000,masse=2000)
+    outil.translation(2,a,hauteur)
+    axes.plot(nb_rep,liste)
+    pyplot.ylabel('fonction sinus')
+    pyplot.xlabel("l'axe des abcisses")
     pyplot.show()
 
 
-affichage_fichier_stl('V_HULL.stl')
+affichage_fichier_stl('Mini650_HULL.stl')
 
