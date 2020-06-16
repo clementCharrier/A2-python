@@ -5,9 +5,8 @@ from matplotlib import pyplot
 import numpy as np
 def affichage_fichier_stl(lien) :
 
-    def CalculForce(a,normale,hauteur):
+    def CalculForce(a,normale,hauteur,Rho):
         F_Archimede=0
-        Rho=1000
         g=9.81
         Stot=0
         """ajustement de la hauteur de la coque """
@@ -34,10 +33,11 @@ def affichage_fichier_stl(lien) :
         outil.translation(2,a,-hauteur)
 
         """calcule du poid de la coque selon l'axe Oz"""
-        masse=2000 #g
+
+        masse=2000 #kg
         F_Poid=(0,0,-1*masse*g)
 
-        """On determine la norme de la resultante du poid et d'archimède"""
+        """On determine la norme de la resultante du poid plus d'archimède"""
 
         normeArchimede=np.linalg.norm(F_Archimede)
         print("archi ",F_Archimede)
@@ -48,9 +48,9 @@ def affichage_fichier_stl(lien) :
 
         return difference
 
-    def Dichotomie(Haut,Bas,Presicion):
+    def Dichotomie(Haut,Bas,Precision):
         ecart=Bas-Haut
-        while abs(ecart)>Presicion:
+        while abs(ecart)>Precision:
             Zmilieu=(Haut+Bas)/2
             print("ecart ",ecart," haut ",Haut," bas ",Bas," Zmilieu ",Zmilieu)
             difference=CalculForce(a,normale,Zmilieu)
@@ -69,7 +69,8 @@ def affichage_fichier_stl(lien) :
     fichier=mesh.Mesh.from_file(lien)
     a=(fichier.vectors)
     normale=(fichier.normals)
-    normale[7][0]=1  #Vecteur normal du fichie dans le mauvais sens des x
+
+    normale[7][0]=1  #Vecteur normal du fichié V dans le mauvais sens des x
 
 
     #print(a[1])
@@ -79,9 +80,14 @@ def affichage_fichier_stl(lien) :
     # print(CalculForce(a,normale,-0.5))
 
 
-    """Ca ne marche pas"""
-    print('milieu ',Dichotomie(0,-4,0.0000001))
-    print(CalculForce(a,normale,Dichotomie(0,-4,0.0000001)))
+    """baisser la présicion"""
+
+    #print('milieu ',Dichotomie(0,-4,0.0000001))
+    #print(CalculForce(a,normale,Dichotomie(0,-4,0.0000001)))
+
+    """Problème pour le fichier Mini_650 te V avec les vecteurs normaux"""
+
+    outil.translation(2,a,Dichotomie(2,-2,0.0000001))
     axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors))
     scale = fichier.points.flatten()
     axes.auto_scale_xyz(scale, scale, scale)
@@ -90,4 +96,4 @@ def affichage_fichier_stl(lien) :
 
 
 
-affichage_fichier_stl('Rectangular_HULL.stl')
+affichage_fichier_stl('V_HULL.stl')
