@@ -41,10 +41,11 @@ def CalculForce(a,normale,hauteur,Rho,masse):
         Ds=norme(produitVectoriel(U,V))
         Stot+=Ds #surface totale de la coque
         DsVec=Ds*normale[n]
+        print("DSvec ",DsVec)
 
         """Calcule de la hauteur d'une facette """
         Zfk=calculeHauteurFacette(a[n][0],a[n][1],a[n][2])
-
+        print("Zfk ",Zfk)
         """condition pour que une facette soit compté comme immergé """
         if Zfk <0:
             F_Archimede+=Rho*g*Zfk*DsVec
@@ -61,8 +62,8 @@ def CalculForce(a,normale,hauteur,Rho,masse):
     """On determine la norme de la resultante du poid plus d'archimède"""
 
     normeArchimede=np.linalg.norm(F_Archimede)
-    print("archi ",F_Archimede)
-    print("poid ",F_Poid)
+    # print("archi ",F_Archimede)
+    # print("poid ",F_Poid)
     normePoid=np.linalg.norm(F_Poid)
 
     difference= normeArchimede-normePoid #Si <0 alors Poid < Archimede sinon >0 alors Poid > Archimede
@@ -71,17 +72,18 @@ def CalculForce(a,normale,hauteur,Rho,masse):
 
 
 def Dichotomie(Haut,Bas,Precision,a,normale,Rho,masse):
-    #print('test',Haut,Bas,Precision,a,normale,Rho,masse)
+
     if Haut == 0 :
         Bas=-4
         Haut=4
     ecart=Bas-Haut
-    #print(ecart)
+    # print('test',Haut,Bas,Precision,a,normale,Rho,masse)
+    # print(ecart)
     while abs(ecart)>Precision:
         Zmilieu=(Haut+Bas)/2
-        #print("ecart ",ecart," haut ",Haut," bas ",Bas," Zmilieu ",Zmilieu)
+        print("ecart ",ecart," haut ",Haut," bas ",Bas," Zmilieu ",Zmilieu)
         difference=CalculForce(a,normale,Zmilieu,Rho,masse)
-        #print("diff ",difference)
+        print("diff ",difference)
         if difference<0 :
             Haut=Zmilieu
 

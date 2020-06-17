@@ -13,7 +13,7 @@ def affichage_fichier_stl(lien) :
     a=(fichier.vectors)
     normale=(fichier.normals)
 
-    normale[7][0]=1  #Vecteur normal du fichié V dans le mauvais sens des x
+    #normale[7][0]=1  #Vecteur normal du fichié V dans le mauvais sens des x
 
 
     #print(a[1])
@@ -29,7 +29,7 @@ def affichage_fichier_stl(lien) :
     #print(CalculForce(a,normale,Dichotomie(0,-4,0.0000001)))
 
     """Problème pour le fichier Mini_650 te V avec les vecteurs normaux"""
-    hauteur,nb_rep,liste=outil.Dichotomie(2,-4,0.0000001,a,normale,Rho=1000,masse=2000)
+    hauteur,nb_rep,liste=outil.Dichotomie(4,-2,0.0000001,a,normale,Rho=1000,masse=8000)
     print(liste)
     outil.translation(2,a,hauteur)
     x=np.linspace(0,nb_rep,nb_rep)
@@ -41,5 +41,5 @@ def affichage_fichier_stl(lien) :
     pyplot.show()
 
 
-affichage_fichier_stl('V_HULL.stl')
+affichage_fichier_stl('Rectangular_HULL_Normals_Outward.stl')
 

@@ -70,7 +70,7 @@ class Potentiometre(QWidget) :
         #self.dial1.setValue(int(self.line1.text()))
         a=self.line1.text()
         #a=str(a.replace(',','.'))
-        print(a)
+        #print(a)
         self.dial1.setValue(float(a)*10)
 
 

@@ -87,6 +87,7 @@ class Widget_Matplotlib(QWidget) :
         X, Y = np.meshgrid(x, y)
         z=0*X+0*Y
         self.axes.plot_wireframe(X,Y,z)
+
     def d1(self):
         self.fichier.translate([0,0,(self.potentiometre.dial1.value()-self.kx)/10])
         self.kx=self.potentiometre.dial1.value()
@@ -104,6 +105,7 @@ class Widget_Matplotlib(QWidget) :
         self.kz=self.potentiometre.dial3.value()
         self.box.removeWidget(self.canvas)
         self.init_widget(self.fichier)
+
     def push_load(self):
         Ouverture = QFileDialog.getOpenFileName(self,
                 "Ouvrir un fichier",
@@ -119,7 +121,7 @@ class Widget_Matplotlib(QWidget) :
 
     def push_compute(self):
         if self.partie_droite.eau_de_mer.isChecked() == True :
-            print('yes')
+            #print('yes')
             self.partie_droite.rho=1025
         else :
             self.partie_droite.rho=1000
@@ -127,19 +129,18 @@ class Widget_Matplotlib(QWidget) :
                      (self.partie_droite.rho),(self.partie_droite.masse))
 
 
-        a=Dichotomie(float(self.potentiometre.line1.text()),-float(self.potentiometre.line1.text()),(self.partie_droite.precision),
-                     (self.fichier.vectors),(self.fichier.normals),float(self.partie_droite.rho),float(self.partie_droite.masse))
-        print('retour dico',a)
+        tirant=Dichotomie(2,-2,(self.partie_droite.precision),(self.fichier.vectors),(self.fichier.normals),float(self.partie_droite.rho),float(self.partie_droite.masse))
+        print('retour dico',tirant)
 
-        self.partie_droite.LCD.display(abs(a))
+        self.partie_droite.LCD.display(abs(tirant))
         self.hide()
         self.show()
-        self.potentiometre.line1.setText(str(signif(a,2)))
+        #self.potentiometre.line1.setText(str(signif(tirant,2)))
 
 
 
 if __name__ == '__main__' :
     app=QApplication(sys.argv)
-    window=Widget_Matplotlib('V_HULL.STL')
+    window=Widget_Matplotlib('Mini650_HULL_Normals_Outward.STL')
     window.show()
     app.exec_()
