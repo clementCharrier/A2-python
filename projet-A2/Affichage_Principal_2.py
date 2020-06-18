@@ -146,9 +146,7 @@ Erreur : la tolérance doit être un nombre''')
             translation=2
             #self.message_box_erreur('La translation est definie à 2')
 
-
         print((self.potentiometre.line1.text()),(self.potentiometre.line1.text()),(self.partie_droite.precision),(self.partie_droite.rho),(self.partie_droite.masse))
-
 
         # tirant=Dichotomie(translation,-translation,float(self.partie_droite.precision),self.fichier.vectors,self.fichier.normals,
         #              float(self.partie_droite.rho),float(self.partie_droite.masse),float(self.potentiometre.dial1.value())/10)
@@ -169,9 +167,6 @@ Erreur : la tolérance doit être un nombre''')
         # outil.translation(2,self.fichier.vectors,-tirant[0])
         self.hide()
         self.show()
-
-
-
 
     def message_box_erreur(self,text):
         '''Fenetre Pop-Up affichant un message d'erreur'''
