@@ -12,9 +12,9 @@ class Widget_Droit(QWidget) :
     '''
 
     def __init__(self,lien):
+
         QWidget.__init__(self)
         self.setFixedWidth(340)
-
         self.__restriction=QIntValidator()
         self.precision=0
         self.masse=0
@@ -78,6 +78,7 @@ class Widget_Droit(QWidget) :
         if self.__text_precision.text() == '' :
             return
         self.precision=float(self.__text_precision.text())
+
     def l2(self):
         ''' lors d'une modif LineEdit2 => enregistrement sous la variable'''
         if self.text_poids.text() == '' :
@@ -87,7 +88,7 @@ class Widget_Droit(QWidget) :
 
 if __name__ == '__main__' :
     app=QApplication([])
-    window=Widget_Droit('V_HULL.STL')
+    window=Widget_Droit('STL/V_HULL.STL')
     window.show()
     app.exec_()
 

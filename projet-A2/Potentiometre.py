@@ -1,6 +1,8 @@
 from PySide2.QtWidgets import QMainWindow, QLabel, QPushButton, QVBoxLayout, QTableWidget, QApplication,QWidget, QHBoxLayout, QTextEdit,QHeaderView,QDialog,QDialogButtonBox,QBoxLayout,QDial,QGridLayout,QLineEdit
 from PySide2.QtGui import QIntValidator,QDoubleValidator,QFont
 from PySide2 import QtCore
+
+
 class Potentiometre(QWidget) :
 
     def __init__(self):
@@ -8,18 +10,16 @@ class Potentiometre(QWidget) :
 
 => Les fonctions à la fin (knob1,2,3 et ligne1,2,3) permettent de synchroniser la valeur du potentiometre avec le lineEdit
 => dial1 > Translation Z ; dial2 > Rotation Y ; dial3 > Rotation X
+
         '''
+
         QWidget.__init__(self)
         self.__restriction1=QIntValidator(-180,180)
         self.__restriction2=QDoubleValidator(-10,10,2)
-
         A=QFont("Arial", 70)
         self.titre=QLabel("S T L   B O A T")
         self.titre.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-        #self.titre.adjustSize()
         self.titre.setFont(A)
-
-
         self.dial1=QDial()
         self.dial1.setValue(0)
         self.dial1.setMaximum(100)
@@ -67,6 +67,7 @@ class Potentiometre(QWidget) :
         self.setLayout(self.layout)
         self.show()
 
+    '''Afficher la valeur des potentiomètes'''
     def knob1(self):
         self.line1.setText(str(self.dial1.value()/10))
 
@@ -76,13 +77,11 @@ class Potentiometre(QWidget) :
     def knob3(self):
         self.line3.setText(str(self.dial3.value()))
 
+    '''Syncroniser les valeurs données avec les potentiomètres'''
     def ligne1(self):
-        #self.dial1.setValue(int(self.line1.text()))
         a=self.line1.text()
-        #a=str(a.replace(',','.'))
         print(a)
         self.dial1.setValue(float(a)*10)
-
 
     def ligne2(self):
         self.dial2.setValue(float(self.line2.text()))
@@ -91,9 +90,9 @@ class Potentiometre(QWidget) :
         self.dial2.setValue(float(self.line3.text()))
 
 
+
 if __name__ == '__main__' :
     app=QApplication([])
-
     window=Potentiometre()
     window.show()
     app.exec_()

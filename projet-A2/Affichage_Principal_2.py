@@ -2,17 +2,16 @@ from stl import mesh,main
 from mpl_toolkits import mplot3d
 from matplotlib import pyplot
 from PySide2.QtWidgets import QMainWindow, QLabel, QPushButton, QVBoxLayout, QTableWidget, QApplication,QWidget, QHBoxLayout, QTextEdit,QHeaderView,QDialog,QDialogButtonBox,QBoxLayout,QDial,QGridLayout,QLineEdit,QToolBar,QMessageBox
-from PySide2.QtGui import QFont
-from PySide2 import QtCore
+# from PySide2.QtGui import QFont
+# from PySide2 import QtCore
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from Potentiometre import *
 from Partie_Droite import *
 from Partie_Gauche import *
-from outil import *
+from outil import * # import du fichier avec les outils mathematiques
 from graph import *
 import math
-
-import sys
+# import sys
 
 
 class Widget_Matplotlib(QWidget) :
@@ -20,7 +19,6 @@ class Widget_Matplotlib(QWidget) :
 
     lien : correspond au chemin du fichier stl par defaut ''
     d1,d2,d3 sont liés aux changements de valeur des potentiometres avec maj du graph 3D
-
     '''
     def __init__(self,lien='') :
         QWidget.__init__(self)
@@ -29,30 +27,25 @@ class Widget_Matplotlib(QWidget) :
         self.box=QGridLayout()
         self.lien=lien
 
-        #image
-        # self.__image=QLabel()
-        # self.__image.setPixmap(QtGui.QPixmap('png/helm.png'))
-        # self.__image.setWindowOpacity(10)
-
-        # partie Gauche
+        '''partie Gauche de l'interface'''
         self.partie_gauche=Widget_Gauche(self.lien)
         self.partie_gauche.button_load.clicked.connect(self.push_load)
         self.partie_gauche.button_save.clicked.connect(self.push_save)
-        # partie Droite
+
+        '''partie Droite de l'interface'''
         self.partie_droite=Widget_Droit(self.lien)
         self.partie_droite.button_compute.clicked.connect(self.push_compute)
-        self.kx=0
-        self.ky=0
-        self.kz=0
+        self.valeurPotentiometrePrec1=0
+        self.valeurPotentiometrePrec2=0
+        self.valeurPotentiometrePrec3=0
 
-
-        # PLOT 3D
+        '''PLOT 3D'''
         self.fichier=mesh.Mesh.from_file(self.lien)
         self.fichierr=mesh.Mesh.from_file(self.lien)
         self.figure= pyplot.figure()
         self.init_widget(self.fichier)
 
-        # Connexion des potentiometres
+        '''Connexion des potentiometres'''
         self.potentiometre=Potentiometre()
         self.potentiometre.dial1.valueChanged.connect(self.d1)
         self.potentiometre.dial2.valueChanged.connect(self.d2)
@@ -69,7 +62,6 @@ class Widget_Matplotlib(QWidget) :
     def init_widget(self,fichier):
         ''' Initialisation de l'affichage 3D Matplotlib '''
         pyplot.close()
-
         self.figure= pyplot.figure()
         scale = self.fichier.points.flatten()
         self.axes=mplot3d.Axes3D(self.figure)
@@ -80,30 +72,33 @@ class Widget_Matplotlib(QWidget) :
         self.axes.set_xlabel('X',fontsize=20)
         self.axes.set_ylabel('Y',fontsize=20)
         self.axes.set_zlabel('Z',fontsize=20)
-        self.partie_gauche.calcul_caracteristiques(fichier.vectors)
-        #mer
+        self.partie_gauche.calcul_caracteristiques(fichier.vectors,fichier.normals)
+
+        '''mer'''
         x=np.linspace(-5,5,5)
         y=np.linspace(-5,5,5)
         X, Y = np.meshgrid(x, y)
         z=0*X+0*Y
         self.axes.plot_wireframe(X,Y,z)
+
     def d1(self):
-        self.fichier.translate([0,0,(self.potentiometre.dial1.value()-self.kx)/10])
-        self.kx=self.potentiometre.dial1.value()
+        self.fichier.translate([0, 0, (self.potentiometre.dial1.value() - self.valeurPotentiometrePrec1) / 10])
+        self.valeurPotentiometrePrec1=self.potentiometre.dial1.value()
         self.box.removeWidget(self.canvas)
         self.init_widget(self.fichier)
 
     def d2(self):
-        self.fichier.rotate([1, 0.0, 0.0],math.radians(self.potentiometre.dial2.value()-self.ky))
-        self.ky=self.potentiometre.dial2.value()
+        self.fichier.rotate([1, 0.0, 0.0], math.radians(self.potentiometre.dial2.value() - self.valeurPotentiometrePrec2))
+        self.valeurPotentiometrePrec2=self.potentiometre.dial2.value()
         self.box.removeWidget(self.canvas)
         self.init_widget(self.fichier)
 
     def d3(self):
-        self.fichier.rotate([0.0, 1, 0.0],math.radians(self.potentiometre.dial3.value()-self.kz))
-        self.kz=self.potentiometre.dial3.value()
+        self.fichier.rotate([0.0, 1, 0.0], math.radians(self.potentiometre.dial3.value() - self.valeurPotentiometrePrec3))
+        self.valeurPotentiometrePrec3=self.potentiometre.dial3.value()
         self.box.removeWidget(self.canvas)
         self.init_widget(self.fichier)
+
     def push_load(self):
         '''
         Methode lors de l'appui du bouton 'load'
@@ -111,7 +106,6 @@ class Widget_Matplotlib(QWidget) :
 => Permet de changer de fichier STL en ouvrant une nouvelle fenêtre
 
         '''
-
         Ouverture = QFileDialog.getOpenFileName(self,
                 "Ouvrir un fichier",
                 "../Documents",
@@ -120,8 +114,8 @@ class Widget_Matplotlib(QWidget) :
 
         print(Ouverture[0])
         self.__lien=str(Ouverture[0])
-        window=Widget_Matplotlib(self.__lien)
-        window.exec_()
+        self.window=Widget_Matplotlib(self.__lien)
+        self.window.show()
 
     def push_compute(self):
         '''
@@ -150,13 +144,13 @@ Erreur : la tolérance doit être un nombre''')
 Erreur : Entrez une valeur différente de 0''')
             return
 
-        # verification de la translation
+        '''verification de la translation'''
         translation=abs(self.potentiometre.dial1.value()/10)
         if translation <=2 :
             translation=2
             #self.message_box_erreur('La translation est definie à 2')
 
-        # graph
+        '''graph'''
         self.graph = Widget_Graph(self.fichier,float(self.partie_droite.precision),float(self.partie_droite.rho),float(self.partie_droite.masse),translation,(self.potentiometre.dial1.value())/10)
         self.partie_droite.LCD.display(abs(self.graph.hauteur))
         self.partie_droite.layout.addWidget(self.graph,13,0,2,0)
@@ -176,8 +170,8 @@ Erreur : Entrez une valeur différente de 0''')
         message.exec_()
 
     def push_save(self):
-        print('save')
-
+        # print('save')
+        '''Creation d'un fichier texte puis écriture des caractéristiques'''
         Ouverture = QFileDialog.getSaveFileName(self,
                 "Sauvegarde",
                 "Name")
@@ -197,6 +191,6 @@ Erreur : Entrez une valeur différente de 0''')
 
 if __name__ == '__main__' :
     app=QApplication([])
-    window=Widget_Matplotlib('V_HULL_Normals_Outward.STL')
+    window=Widget_Matplotlib('STL/V_HULL_Normals_Outward.STL')
     window.show()
     app.exec_()
