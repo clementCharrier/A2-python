@@ -87,7 +87,7 @@ class Potentiometre(QWidget) :
         self.dial2.setValue(float(self.line2.text()))
 
     def ligne3(self):
-        self.dial2.setValue(float(self.line3.text()))
+        self.dial3.setValue(float(self.line3.text()))
 
 
 
