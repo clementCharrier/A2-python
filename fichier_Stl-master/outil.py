@@ -48,15 +48,15 @@ def CalculForce(a,normale,hauteur,Rho,masse):
 
         """condition pour que une facette soit compté comme immergé """
         if A[2] <0 and B[2]<0 and C[2]<0 :#Totalement immergé
-            print("immergé")
+            #print("immergé")
             Zfk=calculeHauteurFacette(A,B,C)
             F_Archimede+=Rho*g*Zfk*DsVec
-            print('Ds des nouvelles facettes ',DsVec,Ds,F_Archimede)
+            #print('Ds des nouvelles facettes ',DsVec,Ds,F_Archimede)
 
         elif A[2] >0 and B[2] >0 and C[2] >0:#Totalement non immergé
             F_Archimede+=0
-            print("pas immergé")
-            print('Ds des nouvelles facettes ',DsVec,Ds,F_Archimede)
+            #print("pas immergé")
+            #print('Ds des nouvelles facettes ',DsVec,Ds,F_Archimede)
 
         elif A[2] >0 and B[2] <0 and C[2] <0:#seul le premier point de la facette n'est pas immergé
             #print("1")

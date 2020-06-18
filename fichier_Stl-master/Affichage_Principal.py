@@ -11,7 +11,6 @@ from Partie_Gauche import *
 from outil import *
 from graph import *
 import math
-
 import sys
 
 
@@ -29,15 +28,14 @@ class Widget_Matplotlib(QWidget) :
         self.box=QGridLayout()
         self.lien=lien
 
-        #image
-        # self.__image=QLabel()
-        # self.__image.setPixmap(QtGui.QPixmap('png/helm.png'))
-        # self.__image.setWindowOpacity(10)
-
+        A=QFont("DIN Condensed", 70)
+        self.titre=QLabel("S T L   B O A T")
+        self.titre.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+        #self.titre.adjustSize()
+        self.titre.setFont(A)
         # partie Gauche
         self.partie_gauche=Widget_Gauche(self.lien)
         self.partie_gauche.button_load.clicked.connect(self.push_load)
-        self.partie_gauche.button_save.clicked.connect(self.push_save)
         # partie Droite
         self.partie_droite=Widget_Droit(self.lien)
         self.partie_droite.button_compute.clicked.connect(self.push_compute)
@@ -48,8 +46,9 @@ class Widget_Matplotlib(QWidget) :
 
         # PLOT 3D
         self.fichier=mesh.Mesh.from_file(self.lien)
-        self.fichierr=mesh.Mesh.from_file(self.lien)
+        self.fichier2=self.fichier
         self.figure= pyplot.figure()
+        self.fichier=mesh.Mesh.from_file(self.lien)
         self.init_widget(self.fichier)
 
         # Connexion des potentiometres
@@ -59,10 +58,11 @@ class Widget_Matplotlib(QWidget) :
         self.potentiometre.dial3.valueChanged.connect(self.d3)
 
         '''Association Layout'''
-        self.box.addWidget(self.potentiometre,0,1)
-        #self.box.addWidget(self.canvas,2,1,0,1)
+        self.box.addWidget(self.titre,0,1)
+        self.box.addWidget(self.potentiometre,1,1)
+        self.box.addWidget(self.canvas,2,1)
         self.box.addWidget(self.partie_gauche,0,0)
-        self.box.addWidget(self.partie_droite,0,2,0,4)
+        self.box.addWidget(self.partie_droite,0,2,0,2)
         self.setLayout(self.box)
         self.show()
 
@@ -76,7 +76,7 @@ class Widget_Matplotlib(QWidget) :
         self.axes.auto_scale_xyz(scale, scale, scale)
         self.axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors,color='red'))
         self.canvas = FigureCanvas(self.figure)
-        self.box.addWidget(self.canvas,2,1,4,1)
+        self.box.addWidget(self.canvas,2,1)
         self.axes.set_xlabel('X',fontsize=20)
         self.axes.set_ylabel('Y',fontsize=20)
         self.axes.set_zlabel('Z',fontsize=20)
@@ -116,12 +116,13 @@ class Widget_Matplotlib(QWidget) :
                 "Ouvrir un fichier",
                 "../Documents",
                 "STL (*.stl);; TIFF (*.tif);; All files (*.*)")
-
-
         print(Ouverture[0])
         self.__lien=str(Ouverture[0])
         window=Widget_Matplotlib(self.__lien)
-        window.exec_()
+        window.exec()
+        self.close()
+        #self.__load_object.setText('Object : '+self.__lien)
+
 
     def push_compute(self):
         '''
@@ -136,7 +137,7 @@ class Widget_Matplotlib(QWidget) :
 
         #verif tolérance
         if float(self.partie_droite.precision) >= 1 or float(self.partie_droite.precision)<=0 :
-            self.message_box_erreur('''                                         Tolérance\n
+            self.message_box_erreur('''Tolérance
 Erreur : la tolérance doit être inferieur à 1 et positive
 Erreur : la tolérance doit être un nombre''')
             return
@@ -145,26 +146,27 @@ Erreur : la tolérance doit être un nombre''')
         else :
             self.partie_droite.rho=1000
 
-        if self.partie_droite.text_poids.text() == '' :
-            self.message_box_erreur('''                                   Masse\n
-Erreur : Entrez une valeur différente de 0''')
-            return
-
         # verification de la translation
         translation=abs(self.potentiometre.dial1.value()/10)
         if translation <=2 :
             translation=2
-            #self.message_box_erreur('La translation est definie à 2')
+            self.message_box_erreur('La translation est definie à 2')
+
+
+        #print((self.potentiometre.line1.text()),(self.potentiometre.line1.text()),(self.partie_droite.precision),(self.partie_droite.rho),(self.partie_droite.masse))
+        a=Dichotomie(translation,-translation,float(self.partie_droite.precision),self.fichier2.vectors,self.fichier2.normals,float(self.partie_droite.rho),float(self.partie_droite.masse))
+        #print('retour dico',a[0])
+
+        self.partie_droite.LCD.display(abs(a[0]))
+        self.potentiometre.dial1.setValue(a[0]*10)
 
         # graph
-        self.graph = Widget_Graph(self.fichier,float(self.partie_droite.precision),float(self.partie_droite.rho),float(self.partie_droite.masse),translation,(self.potentiometre.dial1.value())/10)
-        self.partie_droite.LCD.display(abs(self.graph.hauteur))
+
+        self.graph = Widget_Graph(self.lien,float(self.partie_droite.precision),float(self.partie_droite.rho),float(self.partie_droite.masse),translation)
         self.partie_droite.layout.addWidget(self.graph,13,0,2,0)
-        self.potentiometre.dial1.setValue(0)
-        self.hide()
-        self.show()
-        self.fichier=self.fichierr
-        self.init_widget(self.fichierr)
+        self.showFullScreen()
+
+
 
     def message_box_erreur(self,text):
         '''Fenetre Pop-Up affichant un message d'erreur'''
@@ -174,22 +176,6 @@ Erreur : Entrez une valeur différente de 0''')
         icon=(QtGui.QPixmap('091-notification.png'))
         message.setWindowIcon(icon)
         message.exec_()
-
-    def push_save(self):
-        print('save')
-
-        Ouverture = QFileDialog.getSaveFileName(self,
-                "Sauvegarde",
-                "Name")
-        url=Ouverture[0]+'.txt'
-        fichier = open(url, "w")
-        fichier.write('Compte rendu du test sur : '+self.lien+'\n\n\nCaracteristiques : \n'+self.partie_gauche.retour_caracteristiques()+
-                      '\n\nDéplacement : \n'+'Translation Z : '+str((self.potentiometre.dial1.value())/10)+'\nRotation Y : '+str((self.potentiometre.dial2.value())/10)+
-                      '\nRotation Y : '+str((self.potentiometre.dial3.value())/10)+'''\n\nTirant d'eau: '''+str(self.partie_droite.LCD.value())+'\nMasse : '+str(self.partie_droite.masse)
-                      +'\nPrecision : '+str(self.partie_droite.precision))
-
-
-
 
 
 
