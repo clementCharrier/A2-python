@@ -29,7 +29,7 @@ def affichage_fichier_stl(lien) :
     #print(CalculForce(a,normale,Dichotomie(0,-4,0.0000001)))
 
     """Problème pour le fichier Mini_650 te V avec les vecteurs normaux"""
-    outil.translation(2,a,outil.Dichotomie(2,-2,0.0000001,a,normale,Rho=1000,masse=2000))
+    outil.translation(2,a,outil.Dichotomie(2,-2,0.0000001,a,normale,Rho=1000,masse=4000,)[0])
     axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors))
     scale = fichier.points.flatten()
     axes.auto_scale_xyz(scale, scale, scale)

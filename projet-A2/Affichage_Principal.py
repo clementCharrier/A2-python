@@ -125,11 +125,11 @@ class Widget_Matplotlib(QWidget) :
             self.partie_droite.rho=1025
         else :
             self.partie_droite.rho=1000
-        print((self.potentiometre.line1.text()),(self.potentiometre.line1.text()),(self.partie_droite.precision),
-                     (self.partie_droite.rho),(self.partie_droite.masse))
+        #print((self.potentiometre.line1.text()),(self.potentiometre.line1.text()),(self.partie_droite.precision),
+                     #(self.partie_droite.rho),(self.partie_droite.masse),self.potentiometre.dial1.value())
 
 
-        tirant=Dichotomie(2,-2,(self.partie_droite.precision),(self.fichier.vectors),(self.fichier.normals),float(self.partie_droite.rho),float(self.partie_droite.masse))
+        tirant=Dichotomie(2,-2,(self.partie_droite.precision),(self.fichier.vectors),(self.fichier.normals),float(self.partie_droite.rho),float(self.partie_droite.masse),float(self.potentiometre.dial1.value())/10)
         print('retour dico',tirant)
 
         self.partie_droite.LCD.display(abs(tirant))
@@ -141,6 +141,6 @@ class Widget_Matplotlib(QWidget) :
 
 if __name__ == '__main__' :
     app=QApplication(sys.argv)
-    window=Widget_Matplotlib('Mini650_HULL_Normals_Outward.STL')
+    window=Widget_Matplotlib('V_HULL_Normals_Outward.STL')
     window.show()
     app.exec_()

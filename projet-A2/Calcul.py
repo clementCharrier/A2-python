@@ -41,11 +41,11 @@ def CalculForce(a,normale,hauteur,Rho,masse):
         Ds=norme(produitVectoriel(U,V))
         Stot+=Ds #surface totale de la coque
         DsVec=Ds*normale[n]
-        print("DSvec ",DsVec)
+        #print("DSvec ",DsVec)
 
         """Calcule de la hauteur d'une facette """
         Zfk=calculeHauteurFacette(a[n][0],a[n][1],a[n][2])
-        print("Zfk ",Zfk)
+        #print("Zfk ",Zfk)
         """condition pour que une facette soit compté comme immergé """
         if Zfk <0:
             F_Archimede+=Rho*g*Zfk*DsVec
@@ -82,6 +82,7 @@ def Dichotomie(Haut,Bas,Precision,a,normale,Rho,masse):
     while abs(ecart)>Precision:
         Zmilieu=(Haut+Bas)/2
         print("ecart ",ecart," haut ",Haut," bas ",Bas," Zmilieu ",Zmilieu)
+
         difference=CalculForce(a,normale,Zmilieu,Rho,masse)
         print("diff ",difference)
         if difference<0 :
