@@ -1,9 +1,9 @@
 import numpy as np
 import math
+
 def produitVectoriel(u,v):
     w=np.cross(u,v)
     return w
-
 
 def norme(u):
     return np.linalg.norm(u)
@@ -206,6 +206,24 @@ def calculeSurface(A,B,C,vec): # trois points sous forme de matrice avec 3 coord
     U=calculVecteur(A,B)
     V=calculVecteur(A,C)
     Ds=(norme(produitVectoriel(U,V)))/2
+    print(vec,Ds)
     #print(produitVectoriel(U,V))
     DsVec=Ds*vec
     return DsVec,Ds
+
+
+# '''Les testes'''
+# vecteur=[0.0, 0.7, -0.7]
+# A=[4,0,0]
+# B=[0 ,0 ,0]
+# C=[0,1,1]
+# U=calculVecteur(A,B)
+# V=calculVecteur(A,C)
+# print(np.cross(U,V))
+# Ds=(np.linalg.norm(np.cross(U,V)))/2
+# print(Ds)#Theoriquement 2.83
+# forcearchime=[]
+# for i in vecteur:
+#     i=Ds*i*(1/3)*1000*9.81
+#     forcearchime.append(i)
+# print('Force achimede ',forcearchime)# theoriquement (0,6477.07,-6477.07)
