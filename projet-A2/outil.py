@@ -140,7 +140,7 @@ def CalculForce(a,normale,hauteur,Rho,masse):
     """On determine la norme de la resultante du poid plus d'archimède"""
 
     normeArchimede=np.linalg.norm(F_Archimede)
-    #print("archi ",F_Archimede)
+    print("archi ",F_Archimede)
     #print("poid ",F_Poid)
     normePoid=np.linalg.norm(F_Poid)
 
@@ -206,17 +206,17 @@ def calculeSurface(A,B,C,vec): # trois points sous forme de matrice avec 3 coord
     U=calculVecteur(A,B)
     V=calculVecteur(A,C)
     Ds=(norme(produitVectoriel(U,V)))/2
-    print(vec,Ds)
+    #print(vec,Ds)
     #print(produitVectoriel(U,V))
     DsVec=Ds*vec
     return DsVec,Ds
 
 
 # '''Les testes'''
-# vecteur=[0.0, 0.7, -0.7]
-# A=[4,0,0]
-# B=[0 ,0 ,0]
-# C=[0,1,1]
+# vecteur=[0.0, 0.5, -0.86605]
+# A=[0,0,-0.433013]
+# B=[0.5 ,0.75,0]
+# C=[1,0,-0.433013]
 # U=calculVecteur(A,B)
 # V=calculVecteur(A,C)
 # print(np.cross(U,V))
@@ -224,6 +224,6 @@ def calculeSurface(A,B,C,vec): # trois points sous forme de matrice avec 3 coord
 # print(Ds)#Theoriquement 2.83
 # forcearchime=[]
 # for i in vecteur:
-#     i=Ds*i*(1/3)*1000*9.81
+#     i=Ds*i*0.433013*1000*9.81
 #     forcearchime.append(i)
 # print('Force achimede ',forcearchime)# theoriquement (0,6477.07,-6477.07)
